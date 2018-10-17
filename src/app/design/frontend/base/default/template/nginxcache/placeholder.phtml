@@ -1,0 +1,7 @@
+<div class="placeholder"
+    <?php echo ($this->getPlaceholderId()) ? 'id="'.$this->getPlaceholderId().'"' : '';?>
+    rel="<?php echo $this->getPlaceholderBlockname() ?>">
+
+    <?php echo $this->getChildHtml(); ?>
+
+</div>

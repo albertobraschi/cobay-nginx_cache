@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+
+	<modules>
+		<Cobay_NginxCache>
+			<version>0.1.49</version>
+		</Cobay_NginxCache>
+	</modules>
+
+	<global>
+		<blocks>
+			<nginxcache>
+				<class>Cobay_NginxCache_Block</class>
+			</nginxcache>
+		</blocks>
+		<models>
+			<nginxcache>
+				<class>Cobay_NginxCache_Model</class>
+			</nginxcache>
+		</models>
+		<helpers>
+			<nginxcache>
+				<class>Cobay_NginxCache_Helper</class>
+			</nginxcache>
+		</helpers>
+		<cache>
+			<types>
+				<nginx_cache translate="label,description" module="nginxcache">
+					<label>Nginx Cache</label>
+					<description>FULL PAGE CACHE Working With Nginx's fastcgi_cache Module</description>
+					<tags>NGINX_CACHE</tags>
+				</nginx_cache>
+			</types>
+		</cache>
+	</global>
+
+	<adminhtml>
+		<events>
+			<!-- for system > cache management -->
+			<adminhtml_cache_flush_system>
+				<observers>
+					<nginxcahe_adminhtml_cache_flush_system>
+						<class>nginxcache/observer_ban</class>
+						<method>banAllCache</method>
+					</nginxcahe_adminhtml_cache_flush_system>
+				</observers>
+			</adminhtml_cache_flush_system>
+			<adminhtml_cache_flush_all>
+				<observers>
+					<nginxcache_adminhtml_cache_flush_all>
+						<class>nginxcache/observer_ban</class>
+						<method>banAllCache</method>
+					</nginxcache_adminhtml_cache_flush_all>
+				</observers>
+			</adminhtml_cache_flush_all>
+			<adminhtml_cache_refresh_type>
+				<observers>
+					<nginxcache_adminhtml_cache_refresh_type>
+						<class>nginxcache/observer_ban</class>
+						<method>banCacheType</method>
+					</nginxcache_adminhtml_cache_refresh_type>
+				</observers>
+			</adminhtml_cache_refresh_type>
+
+			<!-- cache clear events for an action -->
+			<catalog_product_save_commit_after>
+				<observers>
+					<nginxcache_catalog_product_save_commit_after>
+						<class>nginxcache/observer_ban</class>
+						<method>banProductPageCache</method>
+					</nginxcache_catalog_product_save_commit_after>
+				</observers>
+			</catalog_product_save_commit_after>
+			<cataloginventory_stock_item_save_after>
+				<observers>
+					<nginxcache_cataloginventory_stock_item_save_after>
+						<class>nginxcache/observer_ban</class>
+						<method>banProductPageCacheCheckStock</method>
+					</nginxcache_cataloginventory_stock_item_save_after>
+				</observers>
+			</cataloginventory_stock_item_save_after>
+			<catalog_category_save_commit_after>
+				<observers>
+					<nginxcache_catalog_category_save_commit_after>
+						<class>nginxcache/observer_ban</class>
+						<method>banCategoryCache</method>
+					</nginxcache_catalog_category_save_commit_after>
+				</observers>
+			</catalog_category_save_commit_after>
+			<cms_page_save_commit_after>
+				<observers>
+					<nginxcache_cms_page_save_commit_after>
+						<class>nginxcache/observer_ban</class>
+						<method>banCmsPageCache</method>
+					</nginxcache_cms_page_save_commit_after>
+				</observers>
+			</cms_page_save_commit_after>
+
+			<!-- Cron/Crawler events -->
+			<nginxcache_ban_all_cache>
+				<observers>
+					<nginxcache_cron_nginxcache_ban_all_cache>
+						<class>nginxcache/observer_cron</class>
+						<method>queueAllUrls</method>
+					</nginxcache_cron_nginxcache_ban_all_cache>
+				</observers>
+			</nginxcache_ban_all_cache>
+		</events>
+	</adminhtml>
+
+	<frontend>
+		<layout>
+			<updates>
+				<nginxcache>
+					<file>nginxcache/nginxcache.xml</file>
+				</nginxcache>
+			</updates>
+		</layout>
+		<routers>
+			<nginxcache>
+				<use>standard</use>
+				<args>
+					<module>Cobay_NginxCache</module>
+					<frontName>phone</frontName>
+				</args>
+			</nginxcache>
+		</routers>
+
+		<events>
+
+			<review_save_after>
+				<observers>
+					<nginxcache_review_save_after>
+						<class>nginxcache/observer_ban</class>
+						<method>banProductReview</method>
+					</nginxcache_review_save_after>
+				</observers>
+			</review_save_after>
+
+			<!-- Setting the response headers to control nginx -->
+			<controller_action_predispatch>
+				<observers>
+					<nginxcache>
+						<class>nginxcache/observer</class>
+						<method>processPreDispatch</method>
+					</nginxcache>
+				</observers>
+			</controller_action_predispatch>
+
+			<!-- Creating a new layout handle "nginxcache_cacheable" or "nginxcache_notcacheable"-->
+			<controller_action_layout_load_before>
+				<observers>
+					<nginxcache_cacheable>
+						<class>nginxcache/observer</class>
+						<method>beforeLoadLayout</method>
+					</nginxcache_cacheable>
+				</observers>
+			</controller_action_layout_load_before>
+
+		</events>
+
+	</frontend>
+
+	<crontab>
+		<jobs>
+			<nginxcache_crawl_urls>
+				<schedule>
+					<cron_expr>*/5 * * * *</cron_expr>
+				</schedule>
+				<run>
+					<model>nginxcache/observer_cron::crawlUrls</model>
+				</run>
+			</nginxcache_crawl_urls>
+		</jobs>
+	</crontab>
+
+	<default>
+		<system>
+			<nginxcache>
+				<cachedir_path>/var/cache/nginx/fastcgi_cache</cachedir_path>
+				<cache_actions><![CDATA[cms_index_index;86400,
+cms_page_view;86400,
+catalog_product_view;86400,
+catalog_category_view;86400]]></cache_actions>
+				<crawler_enable>1</crawler_enable>
+				<crawler_debug>0</crawler_debug>
+				<crawler_batchsize>0</crawler_batchsize>
+				<crawler_batchwait>0</crawler_batchwait>
+				<autopurge_action>1</autopurge_action>
+			</nginxcache>
+		</system>
+		<dev>
+			<template>
+				<allow_symlink>1</allow_symlink>
+			</template>
+		</dev>
+	</default>
+
+</config>

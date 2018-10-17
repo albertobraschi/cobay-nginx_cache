@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<config>
+	<sections>
+		<system>
+			<groups>
+				<nginxcache>
+					<label>Nginx fastcgi_cache integration</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>200</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<cachedir_path translate="label" module="nginxcache">
+							<label>Cache directory path</label>
+							<comment><![CDATA[
+							fastcgi_cache_path be cached by Nginx.<br>
+							<a href="http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_cache_path" target="_blank">
+							<strong>What is fastcgi_cache_path</strong>
+							</a><br>
+							MUST BE writable by apache(mod_php) or php-fpm
+							]]></comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>100</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</cachedir_path>
+						<cache_actions translate="label" module="nginxcache">
+							<label>Cacheable actions</label>
+							<comment><![CDATA[
+							Commaseparated list of <b>"&lt;route&gt;_&lt;controller&gt;_&lt;action&gt;;&lt;lifeTimeInSeconds&gt;" </b> The output generated from these actions will be cached by Nginx.
+							]]></comment>
+							<frontend_type>textarea</frontend_type>
+							<sort_order>101</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</cache_actions>
+						<crawler_enable translate="label" module="nginxcache">
+							<label>Enable Site Crawler</label>
+							<comment>Enable to allow NginxCache to automatically warm the cache</comment>
+							<frontend_type>select</frontend_type>
+							<source_model>nginxcache/config_select_toggle</source_model>
+							<sort_order>102</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</crawler_enable>
+						<crawler_debug translate="label" module="nginxcache">
+							<label>Enable Crawler Debug</label>
+							<comment>Enable debug info from the site crawler</comment>
+							<frontend_type>select</frontend_type>
+							<source_model>nginxcache/config_select_toggle</source_model>
+							<sort_order>103</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</crawler_debug>
+						<crawler_batchsize translate="label" module="nginxcache">
+							<label>Crawler Batch Size</label>
+							<comment>Number of URLs to crawl per batch, when 0 requests will not be batched</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>104</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+							<depends>
+								<crawler_enable>1</crawler_enable>
+							</depends>
+						</crawler_batchsize>
+						<crawler_batchwait translate="label" module="nginxcache">
+							<label>Crawler Batch Wait</label>
+							<comment>Time in seconds to wait between batches</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>105</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+							<depends>
+								<crawler_enable>1</crawler_enable>
+							</depends>
+						</crawler_batchwait>
+						<autopurge_action translate="label" module="nginxcache">
+							<label>Enable Auto Purge On An Action</label>
+							<comment><![CDATA[
+							automatically purge after flush magento cache<br/>
+							automatically purge after flush cache storage<br/>
+							automatically purge after catalog product save<br/>
+							automatically purge after cataloginventory stock item save<br/>
+							automatically purge after catalog category save<br/>
+							automatically purge after cms page save
+							]]></comment>
+							<frontend_type>select</frontend_type>
+							<source_model>nginxcache/config_select_toggle</source_model>
+							<sort_order>106</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+						</autopurge_action>
+					</fields>
+				</nginxcache>
+			</groups>
+		</system>
+	</sections>
+</config>

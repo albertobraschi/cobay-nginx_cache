@@ -1,0 +1,9 @@
+{
+    "name": "hadoos/cobay-nginx_cache",
+    "type": "magento-module",
+    "description": "Magento full page cache extension working with nginx's fastcgi_cache module",
+
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

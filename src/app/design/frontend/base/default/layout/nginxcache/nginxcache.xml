@@ -1,0 +1,81 @@
+<layout version="0.1.0">
+
+	<default>
+
+		<!--
+		<reference name="head">
+			<action method="addJs"><script>nginxcache/jquery-1.6.1.min.js</script></action>
+			<action method="addJs"><script>nginxcache/jquery.cookie.js</script></action>
+			<action method="addJs"><script>nginxcache/common.js</script></action>
+		</reference>
+
+		<reference name="before_body_end">
+			<block type="nginxcache/beforebodyend" template="nginxcache/beforebodyend.phtml"></block>
+		</reference>
+		-->
+
+	</default>
+
+	<!-- 참조예제: https://github.com/fbrnc/Aoe_StaticDemo/blob/master/frontend/layout/aoestaticdemo/aoestaticdemo.xml -->
+	<!-- This layout handle will only be processed if a cacheable controller action is detected (see configuration) -->
+	<!-- If you decide to replace dynamic block only in cacheable actions you can move the content of the default block in this one -->
+	<nginxcache_cacheable>
+
+		<reference name="head">
+			<action method="addJs"><script>nginxcache/jquery-1.6.1.min.js</script></action>
+			<action method="addJs"><script>nginxcache/noconflict.js</script></action>
+			<action method="addJs"><script>nginxcache/jquery.cookie.js</script></action>
+			<action method="addJs"><script>nginxcache/common.js</script></action>
+		</reference>
+
+		<reference name="before_body_end">
+			<block type="nginxcache/beforebodyend" template="nginxcache/beforebodyend.phtml"></block>
+		</reference>
+
+		<reference name="header">
+
+			<!-- Replace cart by static placeholder wrapped with placeholder information (q'n'd solution) -->
+			<action method="unsetChild"><param>user_menu</param></action>
+			<block type="core/template" name="user_menu" template="nginxcache/placeholder.phtml">
+				<action method="setPlaceholderBlockname"><param>user_menu</param></action><!-- required: needs to point to the original block name -->
+				<!--<action method="setPlaceholderId"><param>user.menu</param></action>--><!-- optional -->
+				<block type="core/text" name="placeholder_content">
+					<action method="setText"><param><![CDATA[
+					<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg==">
+					]]></param></action>
+				</block>
+			</block>
+
+		</reference>
+
+		<reference name="right">
+
+			<!-- Replace viewed products by static placeholder wrapped with placeholder information (q'n'd solution) -->
+			<action method="unsetChild"><param>right.reports.product.viewed</param></action>
+			<block type="core/template" name="ph_viewedproducts" after="ph_cart">
+				<action method="setPlaceholderBlockname"><param>right.reports.product.viewed</param></action><!-- required: needs to point to the original block name -->
+				<action method="setPlaceholderId"><param>right_reports_product_viewed</param></action><!-- optional -->
+				<block type="core/text" name="placeholder_content">
+					<action method="setText"><param><![CDATA[
+					<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFhAJ/wlseKgAAAABJRU5ErkJggg==">
+					]]></param></action>
+				</block>
+			</block>
+
+			<!-- Other stuff -->
+			<remove name="paypal.partner.right.logo" />
+			<remove name="catalog.compare.sidebar" />
+			<remove name="right.permanent.callout" />
+			<remove name="right.poll" />
+			<remove name="right.reports.product.compared" />
+			<remove name="left.reports.product.viewed" />
+
+		</reference>
+
+	</nginxcache_cacheable>
+
+	<!-- This layout handle will only be processed if a not cacheable controller action is detected (see configuration) -->
+	<nginxcache_notcacheable>
+	</nginxcache_notcacheable>
+
+</layout>
