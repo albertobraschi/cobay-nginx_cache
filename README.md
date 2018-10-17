@@ -1,0 +1,2 @@
+# cobay-nginx_cache
+
