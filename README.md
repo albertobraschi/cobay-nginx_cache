@@ -45,3 +45,4 @@
     - automatically crawl with/without purge
 
 - Nginx cache is faster than Varnish cache.
+- Nginx cache is less than Varnish cache's memory consumption.
