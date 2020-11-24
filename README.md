@@ -43,3 +43,5 @@
             - product review save
 
     - automatically crawl with/without purge
+
+- Nginx cache is faster than Varnish cache.
