@@ -1,4 +1,4 @@
-# Magento 1.9 full page cache working with nginx fastcgi_cache
+# Magento 1.9 full page cache working on nginx fastcgi_cache
 
 ![nginx cache management magento](https://i.imgur.com/Ez0Z6l0.png)
 
