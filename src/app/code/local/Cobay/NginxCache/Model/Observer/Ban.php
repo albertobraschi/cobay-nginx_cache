@@ -17,7 +17,7 @@ class Cobay_NginxCache_Model_Observer_Ban extends Varien_Event_Observer {
 		if( Mage::helper('nginxcache')->getAutoPurgeEnabled() ) {
 			$purge_shell = Mage::getBaseDir( 'base' ) . '/shell/' . self::NGX_CACHE_PURGE_SHELL;
 			$cachepath   = Mage::helper( 'nginxcache' )->getNginxCachePath();
-			$output      = `$purge_shell "(.+)" $cachepath`;
+			$output      = `sudo $purge_shell "(.+)" $cachepath`;
 			//$output = `rm -rf $cachepath/*`;
 			Mage::dispatchEvent( 'nginxcache_ban_all_cache', [] );
 		}
