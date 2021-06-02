@@ -177,7 +177,7 @@
 	<default>
 		<system>
 			<nginxcache>
-				<cachedir_path>/var/cache/nginx/fastcgi_cache</cachedir_path>
+				<cachedir_path>/var/cache/nginx/nginxcache</cachedir_path>
 				<cache_actions><![CDATA[cms_index_index;86400,
 cms_page_view;86400,
 catalog_product_view;86400,
