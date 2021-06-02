@@ -2,6 +2,7 @@
     "name": "hgati/cobay-nginx_cache",
     "type": "magento-module",
     "description": "Magento full page cache extension working with nginx's fastcgi_cache module",
+    "license": "MIT"
 
     "require": {
         "magento-hackathon/magento-composer-installer": "*"
